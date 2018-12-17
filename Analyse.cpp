@@ -6,56 +6,65 @@
 
 void StartAnalyse()
 {
-    if (g_vector_dirty_position.size() == 0)
+    if (g_vector_dirty_position.empty())
     {
         cout << "[ATTENTION]no dirty call in this project" << endl;
         exit(0);
     }
     cout << "[*]IN StartAnalyse" << endl;
-    for (int i = 0; i < g_vector_dirty_position.size(); i++)
+    for (int i = 0; i < g_vector_dirty_position.size(); i++) // 遍历污点位置
     {
         DirtyAnalyse(i);
     }
 }
 
+// 分析污点位置
 void DirtyAnalyse(int pos) {
     cout << "[*]IN DirtyAnalyse" << endl;
     vector<Environment> vector_environment;
     vector<Environment> vector_environment_new;
-    DirtyPosition dirty_position = g_vector_dirty_position[pos];
+    DirtyPosition dirty_position = g_vector_dirty_position[pos]; // 得到dirty_position
+
+    // 新建污点路径并添加入g_vector_dirty_path,由于依次分析,故index与g_vector_dirty_position对应
     DirtyPath dirty_path;
     g_vector_dirty_path.push_back(dirty_path);
 
     g_vector_dirty_path[pos].VectorAPI.push_back(dirty_position.FuncName);
+
+    // 新建节点
     Node tmp_node;
-    tmp_node.ID = g_vector_dirty_path[pos].VectorNode.size();
+    tmp_node.ID = g_vector_dirty_path[pos].VectorNode.size(); // =0
+    // 将污点位置的位置信息赋给node
     tmp_node.ModuleP = dirty_position.ModuleP;
     tmp_node.FuncP = dirty_position.FuncP;
     tmp_node.BBP = dirty_position.BBP;
     tmp_node.InstrP = dirty_position.InstrP;
-    vector<Value*> p_value_vector = GetDirty(tmp_node.InstrP, {0, 1});
-    tmp_node.SuccNodeID = {-1};
+    tmp_node.SuccNodeID = {-1}; // 后续节点为空
 
-    //init a env for each dirty
-    for (int i = 0; i < p_value_vector.size(); i++)
+    vector<Value*> p_value_vector = GetDirty(tmp_node.InstrP, {0, 1}); //? vector_op
+    // 遍历关键参数,初始化污点Dirty加入当前传播路径g_vector_dirty_path[post]的VectorDirty,并为污点建立env
+    for (int i = 0; i < p_value_vector.size(); i++) // 遍历关键参数
     {
-        Value* value_p = p_value_vector[i];
+        Value* value_p = p_value_vector[i]; // 得到参数
+        // 新建污点, 加入当前传播路径的VectorDirty
         Dirty dirty_t;
         dirty_t.ValueP = value_p;
         if (value_p->hasName())
             dirty_t.Name = value_p->getName().str();
-        dirty_t.FlowInNodeID.push_back(tmp_node.ID);
-        dirty_t.ID = g_vector_dirty_path[pos].VectorDirty.size();
+        dirty_t.FlowInNodeID.push_back(tmp_node.ID); // 将上文新建的节点作为流入节点
+        dirty_t.ID = g_vector_dirty_path[pos].VectorDirty.size(); //? =i
         g_vector_dirty_path[pos].VectorDirty.push_back(dirty_t);
-        tmp_node.DirtyInID.push_back(dirty_t.ID);
+
+        tmp_node.DirtyInID.push_back(dirty_t.ID); //? 回指
+        // 新建env
         Environment env = Environment(pos, tmp_node.ModuleP, tmp_node.FuncP, tmp_node.BBP, tmp_node.InstrP, tmp_node.ID, dirty_t.ID, -1);
         env.last_sys = dirty_position.FuncName;
         env.last_sys_insr = tmp_node.InstrP;
         vector_environment.push_back(env);
     }
-    g_vector_dirty_path[pos].VectorNode.push_back(tmp_node);
+    g_vector_dirty_path[pos].VectorNode.push_back(tmp_node); // 当前传播路径节点
 
-    while(vector_environment.size() > 0)
+    while(!vector_environment.empty())
     {
         //analyse
         for (Environment env: vector_environment)

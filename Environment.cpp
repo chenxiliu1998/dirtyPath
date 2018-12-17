@@ -4,15 +4,15 @@
 #include "Environment.h"
 
 Environment::Environment(int path_pos, Module* mod_p, Function* func_p, BasicBlock* bb_p,
-                         Instruction* instr_p, int current_node_id, int dirty_id, int pred_node_id)
+                         Instruction* instr_p, int dirty_id, int current_node_id, int pred_node_id)
 {
     pos = path_pos;
+    DirtyID = dirty_id;
     CurrentNodeID = current_node_id;
     PredNodeID = pred_node_id;
-    DirtyID = dirty_id;
     ModuleP = mod_p;
-    BBP = bb_p;
     FuncP = func_p;
+    BBP = bb_p;
     InstrP = instr_p;
 }
 
@@ -246,6 +246,7 @@ vector<int> Environment::GetPredNodeInBasicBlock()
 }
 
 
+// instr_pos:节点id
 int Environment::classify(int instr_pos)
 {
     DirtyPath dirty_path = g_vector_dirty_path[pos];

@@ -4,22 +4,23 @@
 
 #include "utils.h"
 
+// 通过指令指针inst_p和参数位置pos,获得关键函数的污点变量指针
 vector<Value*> GetDirty(Instruction* inst_p, vector<int> pos)
 {
     vector<Value*> p_value_vector;
-    unsigned int opnt_cnt = inst_p->getNumOperands();
+    unsigned int opnt_cnt = inst_p->getNumOperands(); // 获取操作数数量
     //get all operands
     if (pos.size() == 0)
     {
         pos = {};
-        for (int i = 0; i < opnt_cnt; i++)
+        for (int i = 0; i < opnt_cnt; i++) //? 最后一个不是call的函数嘛
         {
             pos.push_back(i);
         }
     }
     for(int i = 0; i < pos.size(); i++)
     {
-        int sym = 0;
+        int sym = 0; //? why sym
         Value *opnd = inst_p->getOperand(pos[i]);
         for (auto j: p_value_vector)
             if (j == opnd)

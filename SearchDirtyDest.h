@@ -7,6 +7,6 @@
 
 #include "head.h"
 
-void SearchDirtyDest();
+void SearchDirtyDest(); // 通过g_vector_module遍历分析模块,赋值g_vector_[func_define|func_call|dirty_position]
 
 #endif //ANALYSE_SEARCHDIRTYDEST_H
