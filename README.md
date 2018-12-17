@@ -2,6 +2,11 @@
 llvm 7.0 + 
 ubuntu 14.04.5
 
+# edit
+注意修改下方红框处的api，改为你设置的关键API
+
+![](http://ss1.sinaimg.cn/large/0070QjJhly1fy9zfjb979j30qv04v40k.jpg
+
 # usage
 
 ```
