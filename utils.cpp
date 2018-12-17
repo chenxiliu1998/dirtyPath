@@ -123,7 +123,7 @@ int IfStatic(Value *v){
     Type * type = v->getType();
     if(type->getTypeID() == 15){
         if ( ConstantExpr *pCE = dyn_cast<ConstantExpr>(v) ){
-        	firstop = pCE->getOperand(0);
+            Value *firstop = pCE->getOperand(0);
             if (GlobalVariable *GV = dyn_cast<GlobalVariable>(firstop))
             {
                 Constant *v2 = GV->getInitializer();
@@ -131,7 +131,7 @@ int IfStatic(Value *v){
                 {
             		class_type = STRING;
             	}
-			} 
+	    } 
         }
     }
 
