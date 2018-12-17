@@ -6,6 +6,8 @@
 #define ANALYSE_ANALYSE_H
 
 #include "head.h"
+#include "utils.h"
+#include "Environment.h"
 
 void StartAnalyse();
 void DirtyAnalyse(int);

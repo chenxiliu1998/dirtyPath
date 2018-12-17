@@ -4,9 +4,9 @@
 
 #include "utils.h"
 
-std::vector<Value*> GetDirty(Instruction* inst_p, std::vector<int> pos)
+vector<Value*> GetDirty(Instruction* inst_p, vector<int> pos)
 {
-    std::vector<Value*> p_value_vector;
+    vector<Value*> p_value_vector;
     unsigned int opnt_cnt = inst_p->getNumOperands();
     //get all operands
     if (pos.size() == 0)
@@ -40,12 +40,12 @@ double GetIntValue(Value *v)
     if (ConstantInt *CI = dyn_cast<ConstantInt>(v))
     {
         APInt api_int = CI->getValue();
-        //std::cout << " value:" << api_int.roundToDouble();
+        //cout << " value:" << api_int.roundToDouble();
         double OpValue = api_int.roundToDouble();
         return OpValue;
     } else
     {
-        std::cout << "[error]IN GetFigureOpValue, can't get value of " << v << " , please check out if call IfStatic before" << std::endl;
+        cout << "[error]IN GetFigureOpValue, can't get value of " << v << " , please check out if call IfStatic before" << endl;
     }
 }
 
@@ -55,7 +55,7 @@ double GetDoubleValue(Value* v)
         APFloat api_int = CI->getValueAPF();
         double fin = api_int.convertToDouble();
         //float fin = api_int.convertToFloat();
-        //std::cout << " value:" << fin;
+        //cout << " value:" << fin;
         //double OpValue = api_int.roundToDouble();
         return fin;
     }
@@ -67,15 +67,15 @@ float GetFloatValue(Value* v)
         APFloat api_int = CI->getValueAPF();
         //double fin = api_int.convertToDouble();
         float fin = api_int.convertToFloat();
-        //std::cout << " value:" << fin;
+        //cout << " value:" << fin;
         //double OpValue = api_int.roundToDouble();
         return fin;
     }
 }
 
-std::string GetStringValue(Value* opnd)
+string GetStringValue(Value* opnd)
 {
-    std::string result;
+    string result;
     Value *firstop;
     Type* type = opnd->getType();
     if(type->getTypeID() == 15)
@@ -83,22 +83,22 @@ std::string GetStringValue(Value* opnd)
         if ( ConstantExpr *pCE = dyn_cast<ConstantExpr>(opnd) )
         {
             firstop = pCE->getOperand(0);
-            std::cout << "type : " << firstop->getType()->getTypeID();
+            cout << "type : " << firstop->getType()->getTypeID();
             if (GlobalVariable *GV = dyn_cast<GlobalVariable>(firstop))
             {
                 Constant *v2 = GV->getInitializer();
 
                 if (ConstantDataArray *CA = dyn_cast<ConstantDataArray>(v2))
                 {
-                    std::cout << "step 3";
-                    //std::cout << "value:" << CA->getAsString().str();
+                    cout << "step 3";
+                    //cout << "value:" << CA->getAsString().str();
                     result = CA->getAsString().str();
                     return result;
                 }
             }
         }
     }
-    std::cout << "[error]IN GetStringValue: can't get value of " << firstop->getName().str();
+    cout << "[error]IN GetStringValue: can't get value of " << firstop->getName().str();
     return result;
 }
 
@@ -138,9 +138,9 @@ int IfStatic(Value *v){
     return class_type;
 }
 
-bool IfSysCall(std::string funcname)
+bool IfSysCall(string funcname)
 {
-    for (auto func_def: vector_func_define)
+    for (auto func_def: g_vector_func_define)
     {
         if (funcname.compare(func_def.FuncName) == 0)
         {

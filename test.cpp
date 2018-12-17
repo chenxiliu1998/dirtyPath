@@ -7,142 +7,142 @@ void printpred(int, int);
 void test()
 {
 
-    std::cout << "*************************************dirty_api size: " << vector_dirty_position.size() <<std::endl;
-    for(auto e: vector_dirty_position)
+    cout << "*************************************dirty_api size: " << g_vector_dirty_position.size() << endl;
+    for(auto e: g_vector_dirty_position)
     {
-        std::cout << "FuncName: " << e.FuncName << std::endl;
-        std::cout << "ModuleID: " << e.ModuleP-> getName().str()<< std::endl;
+        cout << "FuncName: " << e.FuncName << endl;
+        cout << "ModuleID: " << e.ModuleP-> getName().str()<< endl;
     }
-    std::cout << "************************************func_define size: " << vector_func_define.size() << std::endl;
-    for(auto e: vector_func_define)
+    cout << "************************************func_define size: " << g_vector_func_define.size() << endl;
+    for(auto e: g_vector_func_define)
     {
-        std::cout << "FuncName: " << e.FuncName << std::endl;
-        std::cout << "ModuleID: " << e.ModuleP->getName().str() << std::endl;
+        cout << "FuncName: " << e.FuncName << endl;
+        cout << "ModuleID: " << e.ModuleP->getName().str() << endl;
     }
-    std::cout << "*************************************func_call size: " << vector_func_call.size() << std::endl;
-    for (auto e: vector_func_call)
+    cout << "*************************************func_call size: " << g_vector_func_call.size() << endl;
+    for (auto e: g_vector_func_call)
     {
-        std::cout << "FuncName: " << e.FuncName << std::endl;
-        std::cout << "ModuleID: " << e.ModuleP->getName().str() << std::endl;
+        cout << "FuncName: " << e.FuncName << endl;
+        cout << "ModuleID: " << e.ModuleP->getName().str() << endl;
     }
 
 
 
-    for(auto e: vector_dirty_path)
+    for(auto e: g_vector_dirty_path)
     {
 
-        std::cout << "+++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-        std::cout << "============node number: " << e.VectorNode.size() << std::endl;
+        cout << "+++++++++++++++++++++++++++++++++++++++++++" << endl;
+        cout << "============node number: " << e.VectorNode.size() << endl;
         for (auto x: e.VectorNode)
         {
 
-            std::cout << "ID: " << x.ID << std::endl;
-            std::cout << "pred node: ";
+            cout << "ID: " << x.ID << endl;
+            cout << "pred node: ";
             for (auto i: x.PredNodeID)
-                std::cout << i << " ";
-            std::cout << "succ node: ";
+                cout << i << " ";
+            cout << "succ node: ";
             for (auto i: x.SuccNodeID)
-                std::cout << i << " ";
-            std::cout << std::endl;
-            std::cout << "FlowInDirty: ";
+                cout << i << " ";
+            cout << endl;
+            cout << "FlowInDirty: ";
             for (auto i: x.DirtyInID)
-                std::cout << i << " ";
-            std::cout << std::endl;
-            std::cout << "FlowOutDirty: ";
+                cout << i << " ";
+            cout << endl;
+            cout << "FlowOutDirty: ";
             for (auto i: x.DirtyOutID)
-                std::cout << i << " ";
-            std::cout << std::endl;
+                cout << i << " ";
+            cout << endl;
 
-            std::cout << "Instruction " << x.InstrP << " ";
+            cout << "Instruction " << x.InstrP << " ";
 
-            std::cout << x.InstrP->getOpcodeName();
+            cout << x.InstrP->getOpcodeName();
             Instruction &inst = *(x.InstrP);
             unsigned int opnt_cnt = inst.getNumOperands();
 
             for (int i = 0; i < opnt_cnt; ++i)
             {
                 Value *opnd = inst.getOperand(i);
-                std::string o;
+                string o;
                 if (opnd->hasName()) {
                     o = opnd->getName();
-                    std::cout << " " << o << ",";
+                    cout << " " << o << ",";
                 } else {
-                    std::cout << " ptr" << opnd << ",";
+                    cout << " ptr" << opnd << ",";
                 }
             }
-            std::cout << std::endl;
-            std::cout << std::endl;
+            cout << endl;
+            cout << endl;
 
         }
 
-        std::cout << "============dirty nubmer: " << e.VectorDirty.size() << std::endl;
+        cout << "============dirty nubmer: " << e.VectorDirty.size() << endl;
         for(auto x: e.VectorDirty)
         {
-            std::cout << "ID: " << x.ID << std::endl;
+            cout << "ID: " << x.ID << endl;
             if (x.ValueP)
-                std::cout << x.ValueP->getType()->getTypeID() << std::endl;
+                cout << x.ValueP->getType()->getTypeID() << endl;
         }
     }
 
 
-    for (int i = 0; i < vector_dirty_path.size(); i++)
+    for (int i = 0; i < g_vector_dirty_path.size(); i++)
     {
-        //std::cout << "--------------------------------------------------------instrcutions: " << std::endl;
+        //cout << "--------------------------------------------------------instrcutions: " << endl;
         //printpred(i, 0);
-        std::cout << "*************************System call: " << std::endl;
-        if (vector_dirty_path[i].VectorAPI.size() != 0)
+        cout << "*************************System call: " << endl;
+        if (g_vector_dirty_path[i].VectorAPI.size() != 0)
         {
-            for (auto a = --vector_dirty_path[i].VectorAPI.end(); a != vector_dirty_path[i].VectorAPI.begin(); a--)
-                std::cout << *a << std::endl;
-            std::cout << vector_dirty_path[i].VectorAPI.front() << std::endl;
+            for (auto a = --g_vector_dirty_path[i].VectorAPI.end(); a != g_vector_dirty_path[i].VectorAPI.begin(); a--)
+                cout << *a << endl;
+            cout << g_vector_dirty_path[i].VectorAPI.front() << endl;
         }
-        std::cout << "*************************dirty source int: " << vector_dirty_path[i].VectorInt.size() << std::endl;
-        for (auto a: vector_dirty_path[i].VectorInt)
-            std::cout << "valuep: " << vector_dirty_path[i].VectorDirty[a].ValueP << " = " << GetIntValue(vector_dirty_path[i].VectorDirty[a].ValueP) << std::endl;
-        std::cout << "*************************dirty source float: " << vector_dirty_path[i].VectorFloat.size() << std::endl;
-        for (auto a: vector_dirty_path[i].VectorFloat)
-            std::cout << vector_dirty_path[i].VectorDirty[a].ValueP << " = " << GetFloatValue(vector_dirty_path[i].VectorDirty[a].ValueP) << std::endl;
-        std::cout << "*************************dirty source double: " << vector_dirty_path[i].VectorDouble.size() << std::endl;
-        for (auto a: vector_dirty_path[i].VectorDouble)
-            std::cout << vector_dirty_path[i].VectorDirty[a].ValueP << " = " << GetDoubleValue(vector_dirty_path[i].VectorDirty[a].ValueP) << std::endl;
-        std::cout << "*************************dirty source string: " << vector_dirty_path[i].VectorString.size() << std::endl;
-        for (auto a: vector_dirty_path[i].VectorString)
-            std::cout << "valuep: " << vector_dirty_path[i].VectorDirty[a].ValueP << " = " << GetStringValue(vector_dirty_path[i].VectorDirty[a].ValueP) << std::endl;
+        cout << "*************************dirty source int: " << g_vector_dirty_path[i].VectorInt.size() << endl;
+        for (auto a: g_vector_dirty_path[i].VectorInt)
+            cout << "valuep: " << g_vector_dirty_path[i].VectorDirty[a].ValueP << " = " << GetIntValue(g_vector_dirty_path[i].VectorDirty[a].ValueP) << endl;
+        cout << "*************************dirty source float: " << g_vector_dirty_path[i].VectorFloat.size() << endl;
+        for (auto a: g_vector_dirty_path[i].VectorFloat)
+            cout << g_vector_dirty_path[i].VectorDirty[a].ValueP << " = " << GetFloatValue(g_vector_dirty_path[i].VectorDirty[a].ValueP) << endl;
+        cout << "*************************dirty source double: " << g_vector_dirty_path[i].VectorDouble.size() << endl;
+        for (auto a: g_vector_dirty_path[i].VectorDouble)
+            cout << g_vector_dirty_path[i].VectorDirty[a].ValueP << " = " << GetDoubleValue(g_vector_dirty_path[i].VectorDirty[a].ValueP) << endl;
+        cout << "*************************dirty source string: " << g_vector_dirty_path[i].VectorString.size() << endl;
+        for (auto a: g_vector_dirty_path[i].VectorString)
+            cout << "valuep: " << g_vector_dirty_path[i].VectorDirty[a].ValueP << " = " << GetStringValue(g_vector_dirty_path[i].VectorDirty[a].ValueP) << endl;
     }
 
 
-    std::cout << "--------------------------------------------------------------all dump" << std::endl;
-    for (auto m: vector_module) {
+    cout << "--------------------------------------------------------------all dump" << endl;
+    for (auto m: g_vector_module) {
         for (auto iter1 = m->getFunctionList().begin();
              iter1 != m->getFunctionList().end(); iter1++) {
             Function &f = *iter1;
-            std::cout << "Function: " << f.getName().str() << std::endl;
-            std::cout << "---arg number: " << f.arg_size() << std::endl;
-            std::cout << "---bb number: " << f.getBasicBlockList().size() << std::endl;
+            cout << "Function: " << f.getName().str() << endl;
+            cout << "---arg number: " << f.arg_size() << endl;
+            cout << "---bb number: " << f.getBasicBlockList().size() << endl;
             for (auto iter2 = f.getBasicBlockList().begin();
                  iter2 != f.getBasicBlockList().end(); iter2++) {
                 BasicBlock &bb = *iter2;
-                std::cout << "......BasicBlock: " << &bb << std::endl;
+                cout << "......BasicBlock: " << &bb << endl;
                 for (auto iter3 = bb.begin(); iter3 != bb.end(); iter3++) {
                     Instruction &inst = *iter3;
-                    std::cout << ".........Instruction " << &inst << " : " << inst.getOpcodeName();
+                    cout << ".........Instruction " << &inst << " : " << inst.getOpcodeName();
                     unsigned int i = 0;
                     unsigned int opnt_cnt = inst.getNumOperands();
                     for (; i < opnt_cnt; ++i) {
                         Value *opnd = inst.getOperand(i);
-                        std::string o;
+                        string o;
                         //raw_string_ostream os(o);
                         //opnd->print(os);
                         //opnd->printAsOperand(os, true, m);
                         if (opnd->hasName()) {
                             o = opnd->getName();
-                            std::cout << " " << o << ",";
+                            cout << " " << o << ",";
                         } else {
-                            std::cout << " ptr" << opnd << ",";
+                            cout << " ptr" << opnd << ",";
                         }
-                        //std::cout << "meta data: " << opnd->isUsedByMetadata();
+                        //cout << "meta data: " << opnd->isUsedByMetadata();
                     }
-                    std::cout << std::endl;
+                    cout << endl;
                 }
             }
         }
@@ -152,26 +152,26 @@ void test()
 
 void printpred(int i, int j)
 {
-    Node x = vector_dirty_path[i].VectorNode[j];
-    std::cout << "Instruction " << x.InstrP << " ";
+    Node x = g_vector_dirty_path[i].VectorNode[j];
+    cout << "Instruction " << x.InstrP << " ";
 
-    std::cout << x.InstrP->getOpcodeName();
+    cout << x.InstrP->getOpcodeName();
     Instruction &inst = *(x.InstrP);
     unsigned int opnt_cnt = inst.getNumOperands();
 
     for (int i = 0; i < opnt_cnt; ++i)
     {
         Value *opnd = inst.getOperand(i);
-        std::string o;
+        string o;
         if (opnd->hasName()) {
             o = opnd->getName();
-            std::cout << " " << o << ",";
+            cout << " " << o << ",";
         } else {
-            std::cout << " ptr" << opnd << ",";
+            cout << " ptr" << opnd << ",";
         }
     }
-    std::cout << std::endl;
-    std::cout << std::endl;
+    cout << endl;
+    cout << endl;
 
     for (auto k: x.PredNodeID)
         printpred(i, k);

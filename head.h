@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+using namespace std;
 #include <llvm/Support/MemoryBuffer.h>
 #include <llvm/Support/ErrorOr.h>
 #include <llvm/IR/Module.h>
@@ -16,6 +17,7 @@
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/Support/SourceMgr.h>
 #include <llvm/IR/CFG.h>
+using namespace llvm;
 #include "utils.h"
 
 #define NORMAL 0
@@ -29,50 +31,54 @@
 #define CHAR 3
 #define STRING 4
 
-using namespace llvm;
-
+// 污点, 指关键函数的关键变量(一个DirtyPosition可以存在多个污点)
 typedef struct
 {
     int ID;
-    std::string Name;
-    Value* ValueP;
-    std::vector<int> FlowOutNodeID;
-    std::vector<int> FlowInNodeID;
-    //symbol address
+    string Name;    // 变量名
+    Value* ValueP;  // LLVM变量
+    vector<int> FlowOutNodeID;  // 传出的污点节点id
+    vector<int> FlowInNodeID;   // 传入的污点节点id
+    //symbol address            // 符号表地址
 }Dirty;
 
+// 关键函数
 typedef struct
 {
-    std::string FuncName;
-    std::vector<int> ArgPos;
+    string FuncName;
+    vector<int> ArgPos;
 }KeyAPI;
 
+// 污点位置, 即调用关键函数位置
 typedef struct
 {
-    std::string FuncName;
+    string FuncName;            // 使用函数名
     Module* ModuleP;
     Function* FuncP;
     BasicBlock* BBP;
     Instruction* InstrP;
-    std::vector<int> VectorOpPos;
+    vector<int> VectorOpPos;    // 参数位置
 }DirtyPosition;
 
+// 系统函数调用
 typedef struct
 {
-    std::string FuncName;
-    Module* ModuleP;
+    string FuncName;
+    Module* ModuleP;    // 调用该函数的模块指针
     Function* FuncP;
     BasicBlock* BBP;
     Instruction* InstrP;
 }FuncCall;
 
+// 用户函数定义
 typedef struct
 {
-    std::string FuncName;
+    string FuncName;
     Module* ModuleP;
     Function* FuncP;
 }FuncDefine;
 
+// 污点节点
 typedef struct
 {
     int ID;
@@ -80,31 +86,32 @@ typedef struct
     Function* FuncP;
     BasicBlock* BBP;
     Instruction* InstrP;
-    std::vector<int> PredNodeID;
-    std::vector<int> SuccNodeID;
-    std::vector<int> DirtyInID;
-    std::vector<int> DirtyOutID;
+    vector<int> PredNodeID; // 前向结点
+    vector<int> SuccNodeID; // 后续结点 -1即尾节点
+    vector<int> DirtyInID;  // 传入污点id
+    vector<int> DirtyOutID; // 传出污点id
 }Node;
 
+// 污点传播路径, 与DirtyPosition对应
 typedef struct
 {
-    std::vector<Dirty> VectorDirty;
-    std::vector<Node> VectorNode;
-    std::vector<std::string> VectorAPI;
-    std::vector<int> VectorInt;
-    std::vector<int> VectorDouble;
-    std::vector<int> VectorFloat;
-    std::vector<int> VectorString;
+    vector<Dirty> VectorDirty;  // 污点
+    vector<Node> VectorNode;
+    vector<string> VectorAPI;   // 调用函数名
+    vector<int> VectorInt;
+    vector<int> VectorDouble;
+    vector<int> VectorFloat;
+    vector<int> VectorString;
 }DirtyPath;
 
 
 
-extern std::unique_ptr<Module> array_ptr[10];
-extern std::vector<Module*> vector_module;
-extern std::vector<DirtyPosition> vector_dirty_position;
-extern std::vector<FuncDefine> vector_func_define;
-extern std::vector<FuncCall> vector_func_call;
-extern std::vector<DirtyPath> vector_dirty_path;
+extern unique_ptr<Module> g_array_ptr[10];
+extern vector<Module*> g_vector_module;
+extern vector<DirtyPosition> g_vector_dirty_position;
+extern vector<FuncDefine> g_vector_func_define;
+extern vector<FuncCall> g_vector_func_call;
+extern vector<DirtyPath> g_vector_dirty_path;
 
 
 #endif //ANALYSE_HEAD_H

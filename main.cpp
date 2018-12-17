@@ -3,24 +3,22 @@
 #include "Analyse.h"
 #include "head.h"
 #include "Environment.h"
-using namespace llvm;
-
 //global para
-std::unique_ptr<Module> array_ptr[10];
-std::vector<Module*> vector_module;
-std::vector<Function*> vector_function;
-std::vector<BasicBlock*> vector_bb;
-std::vector<Instruction*> vector_instr;
-std::vector<DirtyPosition> vector_dirty_position;
-std::vector<FuncCall> vector_func_call;
-std::vector<FuncDefine> vector_func_define;
-std::vector<DirtyPath> vector_dirty_path;
-std::vector<Environment> vector_environment;
+unique_ptr<Module> g_array_ptr[10];
+vector<Module*> g_vector_module;
+vector<Function*> vector_function;
+vector<BasicBlock*> vector_bb;
+vector<Instruction*> vector_instr;
+vector<DirtyPosition> g_vector_dirty_position;
+vector<FuncCall> g_vector_func_call;
+vector<FuncDefine> g_vector_func_define;
+vector<DirtyPath> g_vector_dirty_path;
+vector<Environment> vector_environment;
 
 
 int main(int argc, char *argv[]) {
 
-    //std::cout << vector_dirty_position.size() <<std::endl;
+    //cout << g_vector_dirty_position.size() << endl;
     if (argc < 2)
     {
         errs() << "Expected an argument - IR file name\n";
@@ -31,15 +29,15 @@ int main(int argc, char *argv[]) {
     SMDiagnostic err;
     SMDiagnostic &Err = err;
 
-    //init vector_module
+    //init g_vector_module
     for(int i = 1; i < argc; i++)
     {
-        array_ptr[i-1] = parseIRFile(argv[i], Err, Context);
-        Module* m = array_ptr[i-1].get();
-        vector_module.push_back(m);
+        g_array_ptr[i-1] = parseIRFile(argv[i], Err, Context);
+        Module* m = g_array_ptr[i-1].get();
+        g_vector_module.push_back(m);
     }
-    std::cout << "number of modules : " << vector_module.size()<< std::endl;
-    std::cout << "*****************************" << std::endl;
+    cout << "number of modules : " << g_vector_module.size()<< endl;
+    cout << "*****************************" << endl;
 
     //search dirty dest and func define
     SearchDirtyDest();
@@ -48,6 +46,6 @@ int main(int argc, char *argv[]) {
 
     //free memory
     for(int i = 0; i < 10; i++)
-        array_ptr[i] = nullptr;
+        g_array_ptr[i] = nullptr;
     return 0;
 }

@@ -7,8 +7,6 @@
 
 #include "head.h"
 
-using namespace llvm;
-
 class Environment
 {
 public:
@@ -22,15 +20,15 @@ public:
     BasicBlock* BBP;
     Instruction* InstrP;
     int op_pos;
-    std::vector<int> PredDirtyVector;
-    std::vector<int> NewPredDirtyVector;
-    std::vector<std::string> visit_name = {};
-    std::vector<int> funccall_id;
-    std::vector<Instruction*> instr_recorder = {};
-    std::vector<BasicBlock*> bb_recorder = {};
-    std::vector<Value*> vector_getelementptr = {};
+    vector<int> PredDirtyVector;
+    vector<int> NewPredDirtyVector;
+    vector<string> visit_name = {};
+    vector<int> funccall_id;
+    vector<Instruction*> instr_recorder = {};
+    vector<BasicBlock*> bb_recorder = {};
+    vector<Value*> vector_getelementptr = {};
 
-    std::string last_sys;
+    string last_sys;
     Instruction* last_sys_insr;
 
     BasicBlock* pred_pred_bb;
@@ -40,19 +38,19 @@ public:
 
     int classify(int);
 
-    std::vector<int> GetPredNode();
+    vector<int> GetPredNode();
 
-    std::vector<int> FindCallInstruction(std::string funcname);
+    vector<int> FindCallInstruction(string funcname);
 
-    std::vector<int> FindRetInstruction(std::string funcname);
+    vector<int> FindRetInstruction(string funcname);
 
-    std::vector<int> InsertNode(Instruction* inst);
+    vector<int> InsertNode(Instruction* inst);
 
-    std::vector<int> InsertUseNode(Module* ModuleP, Function* FuncP, BasicBlock* BBP, Instruction* inst);
+    vector<int> InsertUseNode(Module* ModuleP, Function* FuncP, BasicBlock* BBP, Instruction* inst);
 
     bool IfCurrentStatic();
 
-    bool IfVisted(std::string funcname);
+    bool IfVisted(string funcname);
 
     bool IfNodeExits(Instruction* inst);
 
@@ -62,7 +60,7 @@ public:
 
     int if_static();
 
-    std::vector<int> GetSuccNode();
+    vector<int> GetSuccNode();
 
     bool IfSuccNodeExits(Instruction* inst);
 
@@ -77,7 +75,7 @@ public:
     int GetSuccCall();
 
 private:
-    std::vector<int> GetPredNodeInBasicBlock();
+    vector<int> GetPredNodeInBasicBlock();
 };
 
 #endif //ANALYSE_ENVIRONMENT_H

@@ -6,16 +6,13 @@
 #define ANALYSE_UTILS_H
 
 #include "head.h"
-using namespace llvm;
-
-
-std::vector<Value*> GetDirty(Instruction* ins, std::vector<int> pos);
+vector<Value*> GetDirty(Instruction* ins, vector<int> pos);
 
 int IfStatic(Value *v);
 double GetIntValue(Value *v);
 double GetDoubleValue(Value* v);
 float GetFloatValue(Value* v);
-std::string GetStringValue(Value* opnd);
-bool IfSysCall(std::string);
+string GetStringValue(Value* opnd);
+bool IfSysCall(string);
 
 #endif //ANALYSE_UTILS_H
