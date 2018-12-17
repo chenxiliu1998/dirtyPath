@@ -1,0 +1,4 @@
+/home/hrc/Downloads/clion-2018.3/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/hrc/CLionProjects/analyse2
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/hrc/CLionProjects/analyse2/cmake-build-debug
