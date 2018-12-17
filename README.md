@@ -3,9 +3,9 @@ llvm 7.0 +
 ubuntu 14.04.5
 
 # edit
-注意修改下方红框处的api，改为你设置的关键API
+注意修改SearchDirtyDest.cpp中下方红框处的api，改为你设置的关键API
 
-![](http://ss1.sinaimg.cn/large/0070QjJhly1fy9zfjb979j30qv04v40k.jpg
+![](http://ww1.sinaimg.cn/large/0070QjJhly1fy9zi9w11uj30mc044abq.jpg)
 
 # usage
 
