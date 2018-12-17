@@ -1,3 +1,0 @@
-/home/hrc/CLionProjects/analyse2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/hrc/CLionProjects/analyse2/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/hrc/CLionProjects/analyse2/cmake-build-debug/CMakeFiles/analyse2.dir

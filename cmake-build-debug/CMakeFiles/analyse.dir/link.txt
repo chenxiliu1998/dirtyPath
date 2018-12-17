@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/analyse.dir/main.cpp.o CMakeFiles/analyse.dir/SearchDirtyDest.cpp.o CMakeFiles/analyse.dir/test.cpp.o CMakeFiles/analyse.dir/utils.cpp.o CMakeFiles/analyse.dir/Analyse.cpp.o CMakeFiles/analyse.dir/Environment.cpp.o  -o analyse  -L/usr/lib/llvm-7/lib -Wl,-rpath,/usr/lib/llvm-7/lib -lllvm -lllvm 
